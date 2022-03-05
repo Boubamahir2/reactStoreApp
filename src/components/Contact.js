@@ -22,6 +22,8 @@ const Contact = () => {
               type="email"
               className="form-input"
               placeholder="enter email"
+              required
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
             />
             <button className="submit-btn">Subscrib</button>
           </form>
