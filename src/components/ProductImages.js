@@ -1,9 +1,32 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
+import React, { useState } from "react";
+import styled from "styled-components";
 
-const ProductImages = () => {
-  return <h4>product images</h4>
-}
+//remember in the begining the images will be undefined
+//since in our image we have property of url, we have set it to an empty array
+// here we are saying that if the images is not defined then its going to be an empty array
+const ProductImages = ({ images = [{ url: "" }] }) => {
+  const [main, setMain] = useState(images[0]);
+  return (
+    <Wrapper>
+      <img src={main.url} alt="main-img" className="main" />
+      <div className="gallery">
+        {images.map((image, index) => {
+          // onclick we want to make this image as the main image by using its index and pass it to the setMain(images[index])
+          return (
+            <img
+              src={image.url}
+              alt={image.filename}
+              key={index}
+              onClick={() => setMain(images[index])}
+              // here we adding the active class to the image only if its url matches the main.url
+              className={`${image.url === main.url ? "active" : null}`}
+            />
+          );
+        })}
+      </div>
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.section`
   .main {
@@ -48,6 +71,6 @@ const Wrapper = styled.section`
       }
     }
   }
-`
+`;
 
-export default ProductImages
+export default ProductImages;

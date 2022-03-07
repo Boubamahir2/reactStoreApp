@@ -27,11 +27,11 @@ const SingleProductPage = () => {
   useEffect(() => {
     if (error) {
       setTimeout(() => {
-        history.push('/')//which mean in 3 second we would like to navigate to the homepage ononce theres an error
+        history.push("/"); //which mean in 3 second we would like to navigate to the homepage ononce theres an error
       }, 3000);
     }
   }, [error]);
-  
+
   useEffect(() => {
     fetchSingleProduct(`${url}${id}`);
   }, [id]);
@@ -42,7 +42,51 @@ const SingleProductPage = () => {
   if (error) {
     return <Error />;
   }
-  return <Wrapper></Wrapper>;
+  const {
+    name,
+    price,
+    description,
+    stock,
+    stars,
+    reviews,
+    id: sku,
+    company,
+    images,
+  } = product;
+  return (
+    <Wrapper>
+      <PageHero title={name} product />
+      <div className="section section-center page">
+        <Link to="/products" className="btn">
+          {" "}
+          back to products{" "}
+        </Link>
+        <div className="product-center">
+          <ProductImages images={images} />
+          <section className="content">
+            <h2>{name}</h2>
+            <Stars stars={stars} reviews={reviews} />
+            <h5 className="price">{formatPrice(price)}</h5>
+            <p className="desc">{description}</p>
+            {/* show in stock only if the products available */}
+            <p className="info">
+              <span> available : </span>{" "}
+              {stock > 0 ? "in Stock" : "out of stock"}
+            </p>
+            <p className="info">
+              <span>SKU : </span> {sku}
+            </p>
+            <p className="info">
+              <span>Brand : </span> {company}
+            </p>
+            <hr />
+            {/* show add to cart only if the object is available in the stock */}
+            {stock > 0 && <AddToCart product={product} />}
+          </section>
+        </div>
+      </div>
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.main`

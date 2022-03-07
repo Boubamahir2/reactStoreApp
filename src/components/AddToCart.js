@@ -1,13 +1,69 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { FaCheck } from 'react-icons/fa'
-import { useCartContext } from '../context/cart_context'
-import AmountButtons from './AmountButtons'
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { FaCheck } from "react-icons/fa";
+import { useCartContext } from "../context/cart_context";
+import AmountButtons from "./AmountButtons";
 
-const AddToCart = () => {
-  return <h4>addToCart </h4>
-}
+const AddToCart = ({ product }) => {
+  const { id, stock, colors } = product;
+  const [amount, setAmount] = useState(1);
+  const [productColor, setProductColor] = useState(colors[0]);
+
+  //here we want to add up the exact amount of items in the stock which mean we wont able to add more than what is in the stock
+  const increase = () => {
+    setAmount((oldAmount) => {
+      let newAmount = oldAmount + 1;
+      if (newAmount > stock) {
+        return (newAmount = stock);
+      }
+      return newAmount;
+    });
+  };
+  const decrease = () => {
+    setAmount((oldAmount) => {
+      let newAmount = oldAmount - 1;
+      if (newAmount < 1) {
+        return (newAmount = 1);
+      }
+      return newAmount;
+    });
+  };
+
+  return (
+    <Wrapper>
+      <div className="colors">
+        <span>colors : </span>
+        <div>
+          {colors.map((color, index) => {
+            return (
+              <button
+                className={`${
+                  productColor === color ? "active color-btn" : "color-btn"
+                }`}
+                style={{ background: color }}
+                key={index}
+                onClick={() => setProductColor(colors[index])}
+              >
+                {productColor === color ? <FaCheck /> : null}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+      <div className="btn-container">
+        <AmountButtons
+          increase={increase}
+          decrease={decrease}
+          amount={amount}
+        />
+        <Link to="/carte" className="btn">
+          add to cart
+        </Link>
+      </div>
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.section`
   margin-top: 2rem;
@@ -53,5 +109,5 @@ const Wrapper = styled.section`
     margin-top: 1rem;
     width: 140px;
   }
-`
-export default AddToCart
+`;
+export default AddToCart;
