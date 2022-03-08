@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { formatPrice } from "../utils/helpers";
 import { Link } from "react-router-dom";
-const ListView = ({ filtered_products: products }) => {
+const ListView = ({ products }) => {
   return (
     <Wrapper>
       {products.map((product) => {

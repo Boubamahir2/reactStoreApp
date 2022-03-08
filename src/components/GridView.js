@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import Product from "./Product";
 
-const GridView = ({ filtered_products }) => {
+const GridView = ({ products }) => {
   return (
     <Wrapper>
       <div className="products-container">
-        {filtered_products.map((product) => {
+        {products.map((product) => {
           return <Product key={product.id} {...product} />;
         })}
       </div>

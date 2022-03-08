@@ -1,7 +1,9 @@
 ## Notes
 
 #### Older React Version
- ## to allow hard reload in web browser
+
+## to allow hard reload in web browser
+
 ```
 "react": "^16.13.1",
 "react-dom": "^16.13.1",
@@ -20,3 +22,8 @@
 
 .env file in the root
 FAST_REFRESH=FALSE
+
+###
+
+localeCompare
+is a new js method for sorting items by names
