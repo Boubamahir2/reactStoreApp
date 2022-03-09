@@ -67,7 +67,10 @@ const filter_reducer = (state, action) => {
 
   // UPDATE_FILTERS
   if (action.type === UPDATE_FILTERS) {
+    // const { filtered_products} = state;
     const { value, name } = action.payload;
+    // let filteredProducts = [...filtered_products];
+
     return {
       ...state,
       //accessing properties dynamicly we set name = to value [name]:value

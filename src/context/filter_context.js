@@ -20,6 +20,7 @@ const initialState = {
   filters: {
     text: "",
     company: "all",
+    category: "all",
     color: "all",
     min_price: 0,
     max_price: 0,
@@ -43,14 +44,20 @@ export const FilterProvider = ({ children }) => {
   };
 
   const updateSort = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
+    let name = e.target.name;
+    let value = e.target.value;
     dispatch({ type: UPDATE_SORT, payload: value });
   };
 
   const updateFilters = (e) => {
-    const value = e.target.value;
-    const name = e.target.name;
+    let value = e.target.value;
+    let name = e.target.name;
+    if (name === "category") {
+      value = e.target.textContent;
+    }
+    if (name === "color") {
+      value = e.target.dataset.color;
+    }
     dispatch({ type: UPDATE_FILTERS, payload: { name, value } });
   };
   const clearFilters = (e) => {
