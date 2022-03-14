@@ -78,6 +78,7 @@ const Filters = () => {
               })}
             </select>
           </div>
+          {/* end of company */}
           {/* colors */}
           <div className="form-control">
             <h5>colors</h5>
@@ -86,6 +87,7 @@ const Filters = () => {
                 if (co === "all") {
                   return (
                     <button
+                      key={i}
                       name="color"
                       className={`${
                         color === "all" ? "all-btn active" : "all-btn"
@@ -112,7 +114,39 @@ const Filters = () => {
               })}
             </div>
           </div>
+          {/* colors */}
+          {/* price */}
+          <div className="form-control">
+            <h5>price</h5>
+            <p className="price">{formatPrice(price)}</p>
+            <input
+              type="range"
+              name="price"
+              id="price"
+              onChange={updateFilters}
+              min={min_price}
+              max={max_price}
+              value={price}
+            />
+          </div>
+          {/* end of price */}
+          {/* free shipping */}
+          <div className="form-control shipping">
+            <label htmlFor="shipping">Free shipping</label>
+            <input
+              type="checkbox"
+              name="shipping"
+              id="shipping"
+              onChange={updateFilters}
+              checked={shipping}
+            />
+          </div>
+          {/* end free shipping */}
         </form>
+        {/* clear filt ers */}
+        <button className="clear-btn" onClick={clearFilters} type="button">
+          clear filter
+        </button>
       </div>
     </Wrapper>
   );

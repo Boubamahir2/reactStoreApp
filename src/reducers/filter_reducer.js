@@ -77,13 +77,67 @@ const filter_reducer = (state, action) => {
       filters: { ...state.filters, [name]: value },
     };
   }
+
   //FILTER_PRODUCTS
   if (action.type === FILTER_PRODUCTS) {
-    return { ...state };
+    const { all_products } = state;
+    const { text, category, company, color, price, shipping } = state.filters;
+    //here we used spread operator we want start from scratch each time we filter through the products or esle we will run out of products
+    let tempProducts = [...all_products];
+    if (text) {
+      //return the product that starts with the text that we are passing in search box
+      tempProducts = tempProducts.filter((product) => {
+        return product.name.toLowerCase().startsWith(text);
+      });
+    }
+    //category
+    if (category !== "all") {
+      tempProducts = tempProducts.filter(
+        (product) => product.category === category
+      );
+    }
+    //company
+    if (company !== "all") {
+      tempProducts = tempProducts.filter(
+        (product) => product.company === company
+      );
+    }
+    //colors
+    if (color !== "all") {
+      tempProducts = tempProducts.filter((product) => {
+        //remember color is an array
+        //so we have to run the find method to return product whose color muches the state color
+        return product.colors.find((c) => c === color);
+      });
+    }
+    //price
+    if (price) {
+      tempProducts = tempProducts.filter((product) => product.price <= price);
+    }
+
+    //shipping
+    if (shipping) {
+      tempProducts = tempProducts.filter(
+        (product) => product.shipping === true
+      );
+    }
+    return { ...state, filtered_products: tempProducts };
   }
   // CLEAR_FILTERS
   if (action.type === CLEAR_FILTERS) {
-    return { ...state };
+    //reset everything to default
+    return {
+      ...state,
+      filters: {
+        ...state.filters,
+        text: "",
+        company: "all",
+        category: "all",
+        color: "all",
+        price: state.filters.max_price,
+        shipping: false,
+      },
+    };
   }
   return state;
   throw new Error(`No Matching "${action.type}" - action type`);

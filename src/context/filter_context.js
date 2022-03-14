@@ -58,10 +58,17 @@ export const FilterProvider = ({ children }) => {
     if (name === "color") {
       value = e.target.dataset.color;
     }
+    if (name === "price") {
+      value = Number(value); //format from string an a Number
+    }
+    if (name === "shipping") {
+      value = e.target.checked;
+    }
     dispatch({ type: UPDATE_FILTERS, payload: { name, value } });
   };
+
   const clearFilters = (e) => {
-    dispatch({ type: UPDATE_FILTERS });
+    dispatch({ type: CLEAR_FILTERS });
   };
 
   useEffect(() => {
