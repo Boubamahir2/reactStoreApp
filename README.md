@@ -1,5 +1,5 @@
 ## Store app
-### link netlify:
+### link netlify:https://wiz-reactstore-app.netlify.app/
 
 ## Notes
 
