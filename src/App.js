@@ -12,7 +12,7 @@ import {
   PrivateRoute,
   Products,
 } from "./pages";
-
+//authwarpper gives our app enough time to check for the function before being redirected to the home page
 function App() {
   return (
     <Authwrapper>

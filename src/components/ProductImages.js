@@ -8,7 +8,7 @@ const ProductImages = ({ images = [{ url: "" }] }) => {
   const [main, setMain] = useState(images[0]);
   return (
     <Wrapper>
-      <img src={main.url} alt="main-img" className="main" />
+      <img src={main.url} alt="main-pic" className="main" />
       <div className="gallery">
         {images.map((image, index) => {
           // onclick we want to make this image as the main image by using its index and pass it to the setMain(images[index])

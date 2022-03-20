@@ -30,10 +30,12 @@ const SingleProductPage = () => {
         history.push("/"); //which mean in 3 second we would like to navigate to the homepage ononce theres an error
       }, 3000);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
   useEffect(() => {
     fetchSingleProduct(`${url}${id}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   if (loading) {
