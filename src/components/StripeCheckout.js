@@ -28,6 +28,7 @@ const CheckoutForm = () => {
   const [clientSecret, setClientSecret] = useState("");
   const stripe = useStripe();
   const elements = useElements();
+
   const cardStyle = {
     style: {
       base: {
@@ -48,19 +49,44 @@ const CheckoutForm = () => {
 
   //create paiment
   const createPaymentIntent = async () => {
-    console.log("hello from the other side");
+    try {
+      const data = await axios.post(
+        "/.netlify/functions/create-payment",
+        JSON.stringify({ cart, shipping_fee, total_amount })
+      );
+      setClientSecret(data.data.clientSecret);
+    } catch (error) {
+      console.log(error.response);
+    }
   };
+
   //useEffect
   useEffect(() => {
     createPaymentIntent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   //change  handler
   const handleChange = async (even) => {};
+
   // submitHandler
   const handleSubmit = async (e) => {};
+
   //return
   return (
     <div>
+      {succeeded ? (
+        <article>
+          <h4>Thank you</h4>
+          <h4>Your payment was successfull</h4>
+          <h4>back to home</h4>
+        </article>
+      ) : (
+        <article>
+          <h4>hello, {myUser && myUser.name}</h4>
+          <p>Your total is {formatPrice(shipping_fee + total_amount)}</p>
+        </article>
+      )}
       <form id="payment-form" onSubmit={handleSubmit}>
         <CardElement
           id="card-element"
@@ -69,9 +95,30 @@ const CheckoutForm = () => {
         />
         <button disabled={processing || disabled || succeeded} id="submit">
           <span id="button-text">
-            {processing ? <div className="spinner" id="spinner"></div> : "PAY"}
+            {processing ? (
+              <div className="spinner" id="spinner"></div>
+            ) : succeeded ? (
+              "Paiment accepted"
+            ) : (
+              "Pay"
+            )}
           </span>
         </button>
+        {/* Show any error that happens when processing the payment */}
+        {error && (
+          <div className="card-error" role="alert">
+            {error}
+          </div>
+        )}
+        {/* Show  a success message upon completion */}
+        {/* those messages will be displayed once the paiment is succeeful */}
+        <p className={succeeded ? "result-message" : "result-message hidden"}>
+          see the result in your{` `}
+          <a href={` https://dashboard.stripe.com/test/payments `}>
+            Stripe dasboard.{` `}
+          </a>
+          Refresh the page to pay again
+        </p>
       </form>
     </div>
   );
