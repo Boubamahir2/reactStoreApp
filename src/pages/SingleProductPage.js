@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useProductsContext } from "../context/products_context";
 import { single_product_url as url } from "../utils/constants";
 import { formatPrice } from "../utils/helpers";
@@ -22,12 +22,12 @@ const SingleProductPage = () => {
     fetchSingleProduct,
   } = useProductsContext();
   const { id } = useParams();
-  const history = useHistory();
+  const history = useNavigate();
   //if theres an error we want to navigate away from the page using the useHistory method
   useEffect(() => {
     if (error) {
       setTimeout(() => {
-        history.push("/"); //which mean in 3 second we would like to navigate to the homepage ononce theres an error
+        history("/"); //which mean in 3 second we would like to navigate to the homepage ononce theres an error
       }, 3000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

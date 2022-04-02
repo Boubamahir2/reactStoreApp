@@ -11,7 +11,7 @@ import axios from "axios";
 import { useCartContext } from "../context/cart_context";
 import { useUserContext } from "../context/user_context";
 import { formatPrice } from "../utils/helpers";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 //invoke the load stirpe with our stripe public key
 const promise = loadStripe(process.env.REACT_STRIPE_PUBLIC_KEY);
@@ -19,7 +19,7 @@ const promise = loadStripe(process.env.REACT_STRIPE_PUBLIC_KEY);
 const CheckoutForm = () => {
   const { cart, total_amount, shipping_fee, clearCart } = useCartContext();
   const { myUser } = useUserContext();
-  const history = useHistory();
+  const navigate = useNavigate();
   //stripe STUFF
   const [succeeded, setSucceeded] = useState(false);
   const [error, setError] = useState(null);
@@ -67,10 +67,30 @@ const CheckoutForm = () => {
   }, []);
 
   //change  handler
-  const handleChange = async (even) => {};
+  const handleChange = async (event) => {
+    setDisabled(event.empty);
+    setError(event.error ? event.error.message : "");
+  };
 
   // submitHandler
-  const handleSubmit = async (e) => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setProcessing(true);
+    const payload = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: { card: elements.getElement(CardElement) },
+    });
+    if (payload.error) {
+      setError(`Payment failed ${payload.error.message}`);
+      setProcessing(false);
+    } else {
+      setSucceeded(true);
+      setProcessing(false);
+      clearCart();
+      setTimeout(() => {
+        navigate("/");
+      }, 5000);
+    }
+  };
 
   //return
   return (
