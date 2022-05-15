@@ -28,5 +28,3 @@ FAST_REFRESH=FALSE
 
 ###
 
-localeCompare
-is a new js method for sorting items by names
